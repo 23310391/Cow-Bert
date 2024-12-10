@@ -11,7 +11,6 @@ const int size = 82; // Tamaño de cada celda
 const int w = 1000; // Ancho de la ventana
 const int h = 900; // Alto de la ventana
 int nivel = 1; // Contador de nivel
-int vidas = 3; // Número de vidas del jugador
 
 struct Player {
     int x, y; // Coordenadas en la cuadrícula extendida
@@ -54,7 +53,7 @@ bool checkLose(const Player& player) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    RenderWindow window(VideoMode(w, h), "Q-bert");
+    RenderWindow window(VideoMode(w, h), "Cow-Bert");
 
     Texture t1;
     t1.loadFromFile("assets/images/Vaca3.png"); // personaje
@@ -75,15 +74,7 @@ int main() {
     text.setFillColor(Color::White);
     text.setPosition(10, 10);
 
-    Text gameOverText;
-    gameOverText.setFont(font);
-    gameOverText.setCharacterSize(50);
-    gameOverText.setFillColor(Color::Red);
-    gameOverText.setPosition(w / 2 - 150, h / 2 - 50);
-    gameOverText.setString("Game Over");
-
     Player player;
-    bool gameOver = false;
 
     while (window.isOpen()) {
         Event e;
@@ -92,7 +83,7 @@ int main() {
                 window.close();
 
             // Manejar las teclas cuando son presionadas
-            if (!gameOver && e.type == Event::KeyPressed) {
+            if (e.type == Event::KeyPressed) {
                 if (e.key.code == Keyboard::Left) move(player, -1, 0);
                 if (e.key.code == Keyboard::Right) move(player, 1, 0);
                 if (e.key.code == Keyboard::Up) move(player, 0, -1);
@@ -100,21 +91,19 @@ int main() {
             }
         }
 
-        if (!gameOver && checkLose(player)) {
-            vidas--;
-            if (vidas > 0) {
-                player = Player(); // Reinicia la posición del jugador
-            } else {
-                gameOver = true; // Finaliza el juego
-            }
+        if (checkLose(player)) {
+            // Si pierdes, reinicia el nivel
+            player = Player();
         }
 
-        if (!gameOver && checkWin(player)) {
-            player = Player(); // Reinicia la posición del jugador
+        if (checkWin(player)) {
+            // Si ganas, pasa al siguiente nivel
+            player = Player();
             nivel++;
+            printf("Nivel %i\n", nivel);
         }
 
-        window.clear(Color::Black); // Color del fondo
+        window.clear(Color::Black); // color del fondo
 
         // Dibujar la cuadrícula (con borde negro)
         for (int i = 0; i < N + 2; i++) {
@@ -132,19 +121,14 @@ int main() {
             }
         }
 
-        if (!gameOver) {
-            // Dibujar al jugador
-            sprite1.setPosition(player.x * size, player.y * size);
-            sprite1.setColor(Color::White);
-            window.draw(sprite1);
+        // Dibujar al jugador
+        sprite1.setPosition(player.x * size, player.y * size);
+        sprite1.setColor(Color::White);
+        window.draw(sprite1);
 
-            // Mostrar el nivel y las vidas restantes
-            text.setString("Nivel: " + std::to_string(nivel) + "  Vidas: " + std::to_string(vidas));
-            window.draw(text);
-        } else {
-            // Mostrar "Game Over"
-            window.draw(gameOverText);
-        }
+        // Mostrar el nivel en la pantalla
+        text.setString("Nivel: " + std::to_string(nivel));
+        window.draw(text);
 
         window.display();
     }

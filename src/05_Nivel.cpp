@@ -48,7 +48,7 @@ bool checkLose(const Player& player) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    RenderWindow window(VideoMode(w, h), "Q-bert");
+    RenderWindow window(VideoMode(w, h), "Cow-Bert");
 
     Texture t1;
     t1.loadFromFile("assets/images/Vaca3.png"); // personaje
@@ -118,7 +118,7 @@ int main() {
 
         // Dibujar al jugador
         sprite1.setPosition(player.x * size, player.y * size);
-        sprite1.setColor(Color::Blue);
+        sprite1.setColor(Color::White);
         window.draw(sprite1);
 
         // Mostrar el nivel en la pantalla

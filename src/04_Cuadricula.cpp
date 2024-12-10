@@ -44,12 +44,12 @@ bool checkWin(const Player& player) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    RenderWindow window(VideoMode(w, h), "Q-bert");
+    RenderWindow window(VideoMode(w, h), "Cow-Bert");
 
     Texture t1;
     t1.loadFromFile("assets/images/Vaca3.png"); //personaje
     Texture t2;
-    t2.loadFromFile("assets/images/blanco.png"); //cuadrado para la cuadricula
+    t2.loadFromFile("assets/images/Blanco.png"); //cuadrado para la cuadricula
 
     Sprite sprite1(t1); //vaca
     Sprite sprite2(t2); //cuadrado 
@@ -95,7 +95,7 @@ int main() {
 
         // Dibujar al jugador
         sprite1.setPosition(player.x * size, player.y * size);
-        sprite1.setColor(Color::Blue);
+        sprite1.setColor(Color::White);
         window.draw(sprite1);
 
         window.display();

@@ -10,7 +10,7 @@ const int N = 10; // Columnas
 const int M = 10; // Filas
 const int size = 82; // Tamaño de cada celda
 const int w = 1000; // Ancho de la ventana
-const int h = 900; // Alto de la ventana
+const int h = 1000; // Alto de la ventana
 int nivel = 1; // Contador de nivel
 int vidas = 3; // Número de vidas del jugador
 const float enemySpeed = 0.5f; // Velocidad del enemigo (en segundos)
@@ -91,12 +91,12 @@ bool checkCollision(const Player& player, const Enemy& enemy) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    RenderWindow window(VideoMode(w, h), "Q-bert");
+    RenderWindow window(VideoMode(w, h), "Cow-Bert");
 
     Texture t1, t2, t3;
     t1.loadFromFile("assets/images/Vaca3.png"); // personaje
     t2.loadFromFile("assets/images/blanco.png"); // cuadrado para la cuadrícula
-    t3.loadFromFile("assets/images/Fantasma.png");
+    t3.loadFromFile("assets/images/Fantasma.png"); //enemigo
 
     Sprite sprite1(t1); // vaca
     Sprite sprite2(t2); // cuadrado
