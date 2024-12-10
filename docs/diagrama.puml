@@ -1,0 +1,20 @@
+@startuml Diagrama
+
+class Jugador
+class Juego
+class Mapa
+class Casilla
+class Movimiento
+class Vaca
+class Personaje
+class Nivel
+
+Juego "1" *-- "1" Jugador
+Juego "1" *-- "1" Mapa
+Mapa "1" *-- "100" Casilla
+Jugador "1" o-- "1" Personaje
+Mapa "1" *-- "*" Nivel
+Vaca "1" *-- "*" Movimiento
+Personaje --|> Vaca 
+
+@enduml
