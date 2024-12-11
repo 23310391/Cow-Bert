@@ -14,13 +14,13 @@ const int h = 1000;
 const float enemySpeed = 0.5f;
 const float respawnTime = 3.0f;
 
-class Player {
+class Jugador {
 private:
     int x, y;
     std::vector<std::vector<bool>> visited;
 
 public:
-    Player() : x(1), y(1), visited(N, std::vector<bool>(M, false)) {
+    Jugador() : x(1), y(1), visited(N, std::vector<bool>(M, false)) {
         visited[0][0] = true;
     }
 
@@ -60,13 +60,13 @@ public:
     }
 };
 
-class Enemy {
+class Enemigo {
 private:
     int x, y;
     bool visible;
 
 public:
-    Enemy() {
+    Enemigo() {
         respawn();
         visible = true;
     }
@@ -95,29 +95,29 @@ public:
     }
 };
 
-class GameLogic {
+class Logica {
 public:
-    static bool checkWin(const Player& player) {
-        return player.hasVisitedAll();
+    static bool checkWin(const Jugador& jugador) {
+        return jugador.hasVisitedAll();
     }
 
-    static bool checkLose(const Player& player) {
-        return (player.getX() == 0 || player.getX() == N + 1 || player.getY() == 0 || player.getY() == M + 1);
+    static bool checkLose(const Jugador& jugador) {
+        return (jugador.getX() == 0 || jugador.getX() == N + 1 || jugador.getY() == 0 || jugador.getY() == M + 1);
     }
 
-    static bool checkCollision(const Player& player, const Enemy& enemy) {
-        return enemy.isVisible() && player.getX() == enemy.getX() && player.getY() == enemy.getY();
+    static bool checkCollision(const Jugador& jugador, const Enemigo& enemigo) {
+        return enemigo.isVisible() && jugador.getX() == enemigo.getX() && jugador.getY() == enemigo.getY();
     }
 };
 
-class GameState {
+class EstadoJuego {
 private:
     int nivel;
     int vidas;
     bool gameOver;
 
 public:
-    GameState() : nivel(1), vidas(3), gameOver(false) {}
+    EstadoJuego() : nivel(1), vidas(3), gameOver(false) {}
 
     int getNivel() const { return nivel; }
     int getVidas() const { return vidas; }
@@ -139,7 +139,7 @@ public:
     }
 };
 
-class UIManager {
+class Interfaz {
 private:
     Font font;
     Text levelAndLivesText;
@@ -147,7 +147,7 @@ private:
     Text restartText;
 
 public:
-    UIManager() {
+    Interfaz() {
         if (!font.loadFromFile("assets/fonts/Minecraft.ttf")) {
             throw std::runtime_error("Error loading font");
         }
@@ -184,7 +184,8 @@ public:
     }
 };
 
-int main() {
+int main(int argc, char const *argv[]) 
+{
     srand(static_cast<unsigned>(time(0)));
 
     RenderWindow window(VideoMode(w, h), "Cow-Bert");
@@ -200,10 +201,10 @@ int main() {
     Sprite sprite2(t2);
     Sprite sprite3(t3);
 
-    Player player;
-    Enemy enemy;
-    GameState gameState;
-    UIManager uiManager;
+    Jugador jugador;
+    Enemigo enemigo;
+    EstadoJuego estadojuego;
+    Interfaz interfaz;
 
     Clock moveClock;
     Clock respawnClock;
@@ -214,47 +215,47 @@ int main() {
             if (e.type == Event::Closed)
                 window.close();
 
-            if (gameState.isGameOver() && e.type == Event::KeyPressed && e.key.code == Keyboard::R) {
-                gameState.reset();
-                player.reset();
-                enemy.respawn();
+            if (estadojuego.isGameOver() && e.type == Event::KeyPressed && e.key.code == Keyboard::R) {
+                estadojuego.reset();
+                jugador.reset();
+                enemigo.respawn();
             }
 
-            if (!gameState.isGameOver() && e.type == Event::KeyPressed) {
-                if (e.key.code == Keyboard::A) player.move(-1, 0);
-                if (e.key.code == Keyboard::D) player.move(1, 0);
-                if (e.key.code == Keyboard::W) player.move(0, -1);
-                if (e.key.code == Keyboard::S) player.move(0, 1);
-            }
-        }
-
-        if (!gameState.isGameOver() && GameLogic::checkLose(player)) {
-            gameState.decreaseVidas();
-            if (!gameState.isGameOver()) {
-                player.reset();
+            if (!estadojuego.isGameOver() && e.type == Event::KeyPressed) {
+                if (e.key.code == Keyboard::A) jugador.move(-1, 0);
+                if (e.key.code == Keyboard::D) jugador.move(1, 0);
+                if (e.key.code == Keyboard::W) jugador.move(0, -1);
+                if (e.key.code == Keyboard::S) jugador.move(0, 1);
             }
         }
 
-        if (!gameState.isGameOver() && GameLogic::checkWin(player)) {
-            player.reset();
-            gameState.nextNivel();
+        if (!estadojuego.isGameOver() && Logica::checkLose(jugador)) {
+            estadojuego.decreaseVidas();
+            if (!estadojuego.isGameOver()) {
+                jugador.reset();
+            }
         }
 
-        if (!gameState.isGameOver() && moveClock.getElapsedTime().asSeconds() > enemySpeed) {
-            enemy.move();
+        if (!estadojuego.isGameOver() && Logica::checkWin(jugador)) {
+            jugador.reset();
+            estadojuego.nextNivel();
+        }
+
+        if (!estadojuego.isGameOver() && moveClock.getElapsedTime().asSeconds() > enemySpeed) {
+            enemigo.move();
             moveClock.restart();
         }
 
-        if (!enemy.isVisible() && respawnClock.getElapsedTime().asSeconds() > respawnTime) {
-            enemy.respawn();
+        if (!enemigo.isVisible() && respawnClock.getElapsedTime().asSeconds() > respawnTime) {
+            enemigo.respawn();
             respawnClock.restart();
         }
 
-        if (!gameState.isGameOver() && GameLogic::checkCollision(player, enemy)) {
-            gameState.decreaseVidas();
-            if (!gameState.isGameOver()) {
-                player.reset();
-                enemy.respawn();
+        if (!estadojuego.isGameOver() && Logica::checkCollision(jugador, enemigo)) {
+            estadojuego.decreaseVidas();
+            if (!estadojuego.isGameOver()) {
+                jugador.reset();
+                enemigo.respawn();
             }
         }
 
@@ -264,28 +265,28 @@ int main() {
         for (int i = 0; i < N + 2; i++) {
             for (int j = 0; j < M + 2; j++) {
                 sprite2.setPosition(i * size, j * size);
-                sprite2.setColor((i == 0 || j == 0 || i == N + 1 || j == M + 1) ? Color::Black : (player.isVisited(i - 1, j - 1) ? Color::Green : Color::White));
+                sprite2.setColor((i == 0 || j == 0 || i == N + 1 || j == M + 1) ? Color::Black : (jugador.isVisited(i - 1, j - 1) ? Color::Magenta : Color::Cyan));
                 window.draw(sprite2);
             }
         }
 
         // Dibuja al jugador
-        if (!gameState.isGameOver()) {
-            sprite1.setPosition(player.getX() * size, player.getY() * size);
+        if (!estadojuego.isGameOver()) {
+            sprite1.setPosition(jugador.getX() * size, jugador.getY() * size);
             window.draw(sprite1);
 
             // Dibuja al enemigo si es visible
-            if (enemy.isVisible()) {
-                sprite3.setPosition(enemy.getX() * size, enemy.getY() * size);
+            if (enemigo.isVisible()) {
+                sprite3.setPosition(enemigo.getX() * size, enemigo.getY() * size);
                 window.draw(sprite3);
             }
 
             // Actualiza y dibuja el texto de nivel y vidas
-            uiManager.updateLevelAndLives(gameState.getNivel(), gameState.getVidas());
-            uiManager.draw(window, false);
+            interfaz.updateLevelAndLives(estadojuego.getNivel(), estadojuego.getVidas());
+            interfaz.draw(window, false);
         } else {
             // Dibuja el texto de Game Over
-            uiManager.draw(window, true);
+            interfaz.draw(window, true);
         }
 
         window.display();
