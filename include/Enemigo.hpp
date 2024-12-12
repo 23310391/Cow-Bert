@@ -1,35 +1,16 @@
 #pragma once
-#include<iostream>
-using namespace std;
-
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <string>
+#include <random>
 
-#include <Jugador.hpp>
-#include <EstadoJuego.hpp>
-#include <Interfaz.hpp>
-#include <Logica.hpp>
+extern int N;
+extern int M;
 
-const int N = 10;
-const int M = 10;
-const int size = 82;
-const int w = 1000;
-const int h = 1000;
-const float enemySpeed = 0.5f;
-const float respawnTime = 3.0f;
-
-class Enemigo 
-{
+class Enemigo {
 private:
     int x, y;
     bool visible;
 
 public:
-    Enemigo(){}
-    ~Enemigo(){}
     Enemigo() {
         respawn();
         visible = true;
@@ -42,8 +23,14 @@ public:
     void move() {
         if (!visible) return;
 
-        int dx = (rand() % 3) - 1;
-        int dy = (rand() % 3) - 1;
+        // Generar un movimiento aleatorio usando std::random
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(-1, 1);
+
+        int dx = dis(gen);
+        int dy = dis(gen);
+
         x += dx;
         y += dy;
 
@@ -53,8 +40,12 @@ public:
     }
 
     void respawn() {
-        x = rand() % N + 1;
-        y = rand() % M + 1;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(1, N);
+
+        x = dis(gen);
+        y = dis(gen);
         visible = true;
     }
 };

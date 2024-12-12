@@ -1,7 +1,4 @@
 #pragma once
-#include<iostream>
-using namespace std;
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <ctime>
@@ -10,21 +7,17 @@ using namespace std;
 
 #include <Jugador.hpp>
 #include <Enemigo.hpp>
-#include <EstadoJuego.hpp>
-#include <Interfaz.hpp>
 
-const int N = 10;
-const int M = 10;
-const int size = 82;
-const int w = 1000;
-const int h = 1000;
-const float enemySpeed = 0.5f;
-const float respawnTime = 3.0f;
+extern int N;
+extern int M;
+extern int size;
+extern int w;
+extern int h;
+extern float enemySpeed;
+extern float respawnTime;
 
 class Logica {
 public:
-    Logica(){}
-    ~Logica(){}
     static bool checkWin(const Jugador& jugador) {
         return jugador.hasVisitedAll();
     }

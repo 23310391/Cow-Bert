@@ -1,28 +1,17 @@
 #pragma once
-#include<iostream>
-using namespace std;
-
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <string>
+#include <stdexcept>
+using namespace sf;
 
-#include <Jugador.hpp>
-#include <Enemigo.hpp>
-#include <EstadoJuego.hpp>
-#include <Logica.hpp>
+extern int N;
+extern int M;
+extern int size;
+extern int w;
+extern int h;
+extern float enemySpeed;
+extern float respawnTime;
 
-const int N = 10;
-const int M = 10;
-const int size = 82;
-const int w = 1000;
-const int h = 1000;
-const float enemySpeed = 0.5f;
-const float respawnTime = 3.0f;
-
-class Interfaz 
-{
+class Interfaz {
 private:
     Font font;
     Text levelAndLivesText;
@@ -30,8 +19,6 @@ private:
     Text restartText;
 
 public:
-    Interfaz(){}
-    ~Interfaz(){}
     Interfaz() {
         if (!font.loadFromFile("assets/fonts/Minecraft.ttf")) {
             throw std::runtime_error("Error loading font");

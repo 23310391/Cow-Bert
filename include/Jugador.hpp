@@ -1,35 +1,24 @@
 #pragma once
-#include<iostream>
-using namespace std;
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
 #include <string>
 
-#include <Enemigo.hpp>
-#include <EstadoJuego.hpp>
-#include <Interfaz.hpp>
-#include <Logica.hpp>
+extern int N;
+extern int M;
+extern int size;
+extern int w;
+extern int h;
+extern float enemySpeed;
+extern float respawnTime;
 
-const int N = 10;
-const int M = 10;
-const int size = 82;
-const int w = 1000;
-const int h = 1000;
-const float enemySpeed = 0.5f;
-const float respawnTime = 3.0f;
-
-class Jugador 
-{
+class Jugador {
 private:
     int x, y;
     std::vector<std::vector<bool>> visited;
 
 public:
-    Jugador(){}
-    ~Jugador(){}
     Jugador() : x(1), y(1), visited(N, std::vector<bool>(M, false)) {
         visited[0][0] = true;
     }
