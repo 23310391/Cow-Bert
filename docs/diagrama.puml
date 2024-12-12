@@ -25,8 +25,8 @@ Jugador "1" o-- "1" Personaje
 Mapa "1" *-- "*" Nivel
 Vaca "1" *-- "*" Movimiento
 Personaje --|> Vaca 
-Juego o-- EstadoJuego
-Juego *-- Logica
-Juego *-- Interfaz
+Juego "1" o-- "1"EstadoJuego
+Juego "1" *-- "1" Logica
+Juego "1" *-- "1" Interfaz
 
 @enduml
