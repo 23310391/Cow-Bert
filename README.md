@@ -2,13 +2,15 @@
 Cow-Bert es una emocionante reimaginación del clásico juego arcade "Q-bert", programado en C y potenciando sus gráficos y dinámica con la biblioteca SFML. En Cow-Bert, los jugadores se sumergen en un vibrante mundo de píxeles donde deben guiar a nuestro protagonista a través de un desafiante mapa de baldosas. Cada movimiento cuenta, ya que un paso en falso puede llevar a una pérdida de vida y la necesidad de empezar de nuevo.
 
 ## Manual de Usuario
-Para jugar es muy sencillo, utiliza las teclas WASD para moverte por el mapa, ¡PERO CUIDADO!, si te sales perderás una vida y tu progreso en el nivel.
+Para jugar es muy sencillo, utiliza las teclas WASD para moverte por el mapa, ¡PERO CUIDADO!, si te sales perderás una vida y tu progreso en el nivel, es muy importante que sepas que solo cuentas con tres vidas, en caso de perder todas podrás volver a comenzar presionando la letra ¨R¨ y así seguir disfrutando del juego.
+
 Intenta pasar por todas las casillas evitando a nuestro enemigo, el fantasma, si lo tocas perderás una vida.
+
 Cada vez que llenes las casillas, avanzarás de nivel.
+
+
 ***
 ![Error al cargar la imagen](./docs/Juego.png)
-***
-Oh no, parece que te has quedado sin vidas, no te preocupes, presiona la tecla R y podrás jugar de nuevo!!
 ***
 ![Error al cargar la imagen](./docs/gg.png)
 ***
