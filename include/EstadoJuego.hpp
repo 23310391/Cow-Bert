@@ -9,7 +9,7 @@ extern int h;
 extern float enemySpeed;
 extern float respawnTime;
 
-class EstadoJuego {
+class EstadoJuego { //usa
 private:
     int nivel;
     int vidas;

@@ -1,20 +1,32 @@
 @startuml Diagrama
 
-class Jugador
 class Juego
+
+class Jugador
+class Enemigo
+class Interfaz 
+class EstadoJuego
+class Logica
+
 class Mapa
 class Casilla
 class Movimiento
-class Vaca
 class Personaje
+class Vaca
+class Fantasma
 class Nivel
 
 Juego "1" *-- "1" Jugador
 Juego "1" *-- "1" Mapa
 Mapa "1" *-- "100" Casilla
+Mapa "1" *-- "1" Enemigo
+Enemigo --|> Fantasma
 Jugador "1" o-- "1" Personaje
 Mapa "1" *-- "*" Nivel
 Vaca "1" *-- "*" Movimiento
 Personaje --|> Vaca 
+Juego o-- EstadoJuego
+Juego *-- Logica
+Juego *-- Interfaz
 
 @enduml
